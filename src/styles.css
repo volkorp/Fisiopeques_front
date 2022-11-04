@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css';
+#sidebar    {
+    position: relative;
+    width: 25%;
+    float: left;
+    height: 100%;    
+    z-index: 1010101010
+}
+
+#page-wrap  {    
+    position: relative;
+    width: 65%;
+    float: left;
+    height: 100%;    
+    z-index: 1010101010
+}
+
+body {
+    background-color: #d4f1ff;
+}
+
+
+/* width: calc(65% - 200px); */
