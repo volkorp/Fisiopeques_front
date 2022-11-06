@@ -1,7 +1,8 @@
 import { Component,  } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,8 @@ import { MenuItem } from 'primeng/api';
 })
 export class AppComponent {
   title = 'api';
-  completeDictionary: any = [{name: "Test", number:"31425312", confirmed: true}, {name: "Test", number:"31312", confirmed: false},{name: "Test", number:"311275312", confirmed: true},{name: "Test", number:"31259312", confirmed: true},{name: "Test", number:"31253129", confirmed: true},{name: "Test", number:"312345312", confirmed: true},{name: "Test", number:"4444", confirmed: true},{name: "Test", number:"311256012", confirmed: true},{name: "Test", number:"31025312", confirmed: true},{name: "Test", number:"031253120", confirmed: true},{name: "Test", number:"3012953012", confirmed: true}];  
-  todayUsers: any = [{name: "Test", number:"31425312", confirmed: true}, {name: "Test", number:"31312", confirmed: false}];
+  completeDictionary: any = [];  
+  todayUsers: any = [];
   usersShown:any = [];
 
   name: string = "";
@@ -27,6 +28,12 @@ export class AppComponent {
   trollBoolean: boolean = false;
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    }),
+  };
   
   ngOnInit(): void {
     this.items = [
@@ -41,12 +48,20 @@ export class AppComponent {
       }
   ];
 
-  this.usersShown = [...this.todayUsers];
-    // fetch('./assets/dictionary.json').then(res => res.json()).then(jsonData => {
-    //   this.dictionary = jsonData;
-      
-    //   console.log(this.dictionary);
-    // });
+    this.getDictionary().subscribe(data =>{
+      this.completeDictionary = data;
+      // console.log(data);
+      // this.todayUsers = data;
+      // this.usersShown = [...this.todayUsers];
+      // this.updateConfirmedBadge();
+
+    });
+  
+    this.getAppointments().subscribe(data =>{
+      console.log(data);
+      this.todayUsers = data;
+    });
+
     this.updateConfirmedBadge();
   }
 
@@ -136,5 +151,13 @@ export class AppComponent {
     if(this.trollCounter == 7){
       this.trollBoolean = true;
     }
+  }
+
+  getDictionary(): Observable<any> {
+    return this.http.get('http://localhost:3000/dictionary');
+  }
+ 
+  getAppointments(): Observable<any> {
+    return this.http.get('http://localhost:3000/todayList');
   }
 }
