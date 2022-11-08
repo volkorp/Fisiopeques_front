@@ -1,5 +1,5 @@
 import { Component,  } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
@@ -45,6 +45,11 @@ export class AppComponent {
         label: 'Cambiar contexto',
         icon: 'pi pi-shield',
         command: () => this.switchContext()
+      },
+      {
+        label: 'Lanzar notificaciones',
+        icon: 'pi pi-shield',
+        command: () => this.notify()
       }
   ];
 
@@ -154,10 +159,18 @@ export class AppComponent {
   }
 
   getDictionary(): Observable<any> {
-    return this.http.get('http://localhost:3000/dictionary');
+    let headers = new HttpHeaders();
+    headers = headers.set('key', 'holi');
+
+    return this.http.get('http://localhost:3000/dictionary',  {headers: headers});
   }
  
   getAppointments(): Observable<any> {
     return this.http.get('http://localhost:3000/todayList');
+  }
+
+  notify(){
+    let queryParams = new HttpParams().append("professional","Lau");
+    return this.http.get('http://localhost:3000/dictionary', {params:queryParams});
   }
 }
