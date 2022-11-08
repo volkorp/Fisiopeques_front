@@ -31,7 +31,8 @@ export class AppComponent {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'key':'holi'
     }),
   };
   
@@ -48,8 +49,10 @@ export class AppComponent {
       },
       {
         label: 'Lanzar notificaciones',
-        icon: 'pi pi-shield',
-        command: () => this.notify()
+        icon: 'pi pi-send',
+        command: () => this.notify().subscribe(data =>{
+          console.log(data);
+        })
       }
   ];
 
@@ -159,18 +162,14 @@ export class AppComponent {
   }
 
   getDictionary(): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.set('key', 'holi');
-
-    return this.http.get('http://localhost:3000/dictionary',  {headers: headers});
+    return this.http.get('http://localhost:3000/dictionary',  {headers: this.httpOptions.headers});
   }
  
   getAppointments(): Observable<any> {
-    return this.http.get('http://localhost:3000/todayList');
+    return this.http.get('http://localhost:3000/todayList',  {headers: this.httpOptions.headers});
   }
 
-  notify(){
-    let queryParams = new HttpParams().append("professional","Lau");
-    return this.http.get('http://localhost:3000/dictionary', {params:queryParams});
+  notify(): Observable<any> {    
+    return this.http.get('http://localhost:3000/launchNotifications/Lau', {headers: this.httpOptions.headers});
   }
 }
