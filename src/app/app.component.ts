@@ -2,7 +2,7 @@ import { Component,  } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
-import { Observable } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +26,8 @@ export class AppComponent {
 
   trollCounter: number = 0;
   trollBoolean: boolean = false;
+
+  static readonly RELOAD_APPOINTMENTS_IN_MILLISECONDS: number = 60000;
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
@@ -54,7 +56,7 @@ export class AppComponent {
           console.log(data);
         })
       }
-  ];
+    ];
 
     this.getDictionary().subscribe(data =>{
       this.completeDictionary = data;
@@ -64,13 +66,16 @@ export class AppComponent {
       // this.updateConfirmedBadge();
 
     });
-  
-    this.getAppointments().subscribe(data =>{
-      console.log(data);
-      this.todayUsers = data;
-    });
 
-    this.updateConfirmedBadge();
+    interval(AppComponent.RELOAD_APPOINTMENTS_IN_MILLISECONDS).subscribe(() => {
+      this.getAppointments().subscribe(data =>{
+        this.todayUsers = [...data];
+        if (!this.isManagementContext)
+          this.usersShown = [...data];
+      });
+  
+      this.updateConfirmedBadge();
+    });
   }
 
   add(){
@@ -172,4 +177,5 @@ export class AppComponent {
   notify(): Observable<any> {    
     return this.http.get('http://localhost:3000/launchNotifications/Lau', {headers: this.httpOptions.headers});
   }
+  
 }
