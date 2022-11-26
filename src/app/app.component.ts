@@ -98,8 +98,7 @@ export class AppComponent {
     // this.http.post<any>('link', body, { headers }).subscribe((data: any) => {a
     //     this.dictionary = data;
     // });
-    this.updateConfirmedBadge();
-
+    
     this.name="";
     this.phone="";
   }
@@ -117,8 +116,6 @@ export class AppComponent {
         }        
       });
     }
-
-    this.updateConfirmedBadge();
   }
 
   deleteProduct(product:any){
@@ -127,9 +124,7 @@ export class AppComponent {
         this.usersShown.splice(index, 1);
       }
     });
-    
-    this.updateConfirmedBadge();
-
+       
     //AQUÍ enviar la colección entera otra a la api para machacar el registro
   }
 
@@ -154,8 +149,6 @@ export class AppComponent {
     }else{
       this.usersShown = [...this.todayUsers];
     }
-
-    this.updateConfirmedBadge();
   }
 
   trollFunction(){
