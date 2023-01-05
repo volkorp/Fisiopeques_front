@@ -168,6 +168,7 @@ export class AppComponent {
   }
 
   notify(): Observable<any> {    
+    this.messageService.add({severity:'success', summary:'Lanzando...', detail:'En breve se cargarán los datos en la interfaz.'});
     return this.http.get('http://localhost:3000/launchNotifications/Lau', {headers: this.httpOptions.headers});
   }
   
