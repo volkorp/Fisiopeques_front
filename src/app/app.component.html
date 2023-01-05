@@ -40,8 +40,8 @@
                   <td>{{person.name}}</td>
                   <td>{{person.number}}</td>
                   <td>
-                    <button *ngIf="person.confirmed" pButton type="button" icon="pi pi-check" class="p-button-text" disabled="true"></button>
-                    <button *ngIf="!person.confirmed" pButton type="button" icon="pi pi-times" class="p-button-warning p-button-text" disabled="true"></button>                    
+                    <button *ngIf="isPersonConfirmed(person.confirmed)" pButton type="button" icon="pi pi-check" class="p-button-text" disabled="true"></button>
+                    <button *ngIf="!isPersonConfirmed(person.confirmed)" pButton type="button" icon="pi pi-times" class="p-button-warning p-button-text" disabled="true"></button>                    
                   </td>
                   <td>                    
                     <button pButton pRipple icon="pi pi-trash" class="p-button-danger p-button-text" (click)="deleteProduct(person)"></button>

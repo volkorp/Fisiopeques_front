@@ -70,6 +70,7 @@ export class AppComponent {
     interval(AppComponent.RELOAD_APPOINTMENTS_IN_MILLISECONDS).subscribe(() => {
       this.getAppointments().subscribe(data =>{
         this.todayUsers = [...data];
+        console.log(this.todayUsers);
         if (!this.isManagementContext)
           this.usersShown = [...data];
       });
@@ -116,6 +117,10 @@ export class AppComponent {
         }        
       });
     }
+  }
+
+  isPersonConfirmed(person:string){
+    return (person === 'true');
   }
 
   deleteProduct(product:any){
